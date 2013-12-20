@@ -14,7 +14,8 @@
         "issues": "https://github.com/cpliakas/magento-client-php/issues"
     },
     "require": {
-        "php": ">=5.3.0"
+        "php": ">=5.3.0",
+        "guzzle/guzzle": "~3.0"
     },
     "require-dev": {
         "pdepend/pdepend": "~1.0",
@@ -26,7 +27,7 @@
     },
     "autoload": {
         "psr-0": {
-            "Magento\Client": "src/"
+            "Magento\\Client": "src/"
         }
     }
 }
