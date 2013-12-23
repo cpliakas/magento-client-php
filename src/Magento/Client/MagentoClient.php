@@ -45,7 +45,6 @@ class MagentoClient extends Client
         } catch (ClientErrorResponseException $e) {
             throw OauthException::factory($e->getRequest(), $e->getResponse());
         }
-
-        return new OauthToken($response);
+        return new OauthToken($this, $response);
     }
 }

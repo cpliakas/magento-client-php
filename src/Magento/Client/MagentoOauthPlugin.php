@@ -15,7 +15,7 @@ class MagentoOauthPlugin extends OauthPlugin
      * Magento doesn't understand running on alternate ports. Therefore we have
      * to strip the port. WTF.
      *
-     * @see
+     * @see http://stackoverflow.com/a/14693714/870667
      */
     public function getStringToSign(RequestInterface $request, $timestamp, $nonce)
     {
@@ -28,6 +28,7 @@ class MagentoOauthPlugin extends OauthPlugin
         $parameterString = new QueryString($params);
 
         // Remove the port to get around the Magento bug.
+        // @see http://stackoverflow.com/a/14693714/870667
         $requestUrl = $request->getUrl(true);
         $requestUrl->setPort('');
 

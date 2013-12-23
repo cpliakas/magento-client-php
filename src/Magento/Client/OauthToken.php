@@ -3,9 +3,15 @@
 namespace Magento\Client;
 
 use Guzzle\Http\Message\Response;
+use Guzzle\Http\Url;
 
 class OauthToken
 {
+    /**
+     * @var \Magento\Client\MagentoClient
+     */
+    protected $client;
+
     /**
      * @var \Guzzle\Http\Message\Response
      */
@@ -31,8 +37,9 @@ class OauthToken
      *
      * @throws \UnexpectedValueException
      */
-    public function __construct(Response $response)
+    public function __construct(MagentoClient $client, Response $response)
     {
+        $this->client = $client;
         $this->response = $response;
 
         parse_str($response->getBody(true), $arr);
@@ -49,6 +56,14 @@ class OauthToken
         $this->token = $arr['oauth_token'];
         $this->tokenSecret = $arr['oauth_token_secret'];
         $this->callbackConfirmed = $arr['oauth_callback_confirmed'];
+    }
+
+    /**
+     * @return \Magento\Client\MagentoClient
+     */
+    public function getClient()
+    {
+        return $this->client;
     }
 
     /**
@@ -81,6 +96,35 @@ class OauthToken
     public function callbackConfirmed()
     {
         return $this->callbackConfirmed;
+    }
+
+    /**
+     * @param string $path
+     *
+     * @return Guzzle\Http\Url
+     */
+    public function getAuthUrl($path)
+    {
+        return Url::factory($this->client->getConfig('base_url'))
+            ->setPath($path)
+            ->setQuery(array('oauth_token' => $this->token))
+        ;
+    }
+
+    /**
+     * @return Guzzle\Http\Url
+     */
+    public function getCustomerAuthUrl()
+    {
+        return $this->getAuthUrl('/oauth/authorize');
+    }
+
+    /**
+     * @return Guzzle\Http\Url
+     */
+    public function getAdminAuthUrl()
+    {
+        return $this->getAuthUrl('/admin/oAuth_authorize');
     }
 
     /**
