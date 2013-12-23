@@ -7,7 +7,7 @@ use Guzzle\Http\Message\Response;
 class Token
 {
     /**
-     * @var \Magento\Client\MagentoRestClient
+     * @var \Magento\Client\Rest\MagentoRestClient
      */
     protected $client;
 
@@ -27,7 +27,7 @@ class Token
     protected $tokenSecret;
 
     /**
-     * @param \Magento\Client\MagentoRestClient
+     * @param \Magento\Client\Rest\MagentoRestClient
      * @param \Guzzle\Http\Message\Response $response
      *
      * @throws \UnexpectedValueException
@@ -55,7 +55,7 @@ class Token
     public function init(array $arr) {}
 
     /**
-     * @return \Magento\Client\MagentoRestClient
+     * @return \Magento\Client\Rest\MagentoRestClient
      */
     public function getClient()
     {

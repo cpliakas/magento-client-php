@@ -11,7 +11,7 @@ class MagentoRestClient extends Client
     /**
      * {@inheritdoc}
      *
-     * @return \Magento\Client\MagentoRestClient
+     * @return \Magento\Client\Rest\MagentoRestClient
      */
     public static function factory($config = array())
     {
@@ -52,9 +52,9 @@ class MagentoRestClient extends Client
     }
 
     /**
-     * @return \Magento\Client\RequestToken
+     * @return \Magento\Client\Rest\RequestToken
      *
-     * @throws \Magento\Client\OauthException
+     * @throws \Magento\Client\Rest\OauthException
      */
     public function getRequestToken()
     {
@@ -67,9 +67,9 @@ class MagentoRestClient extends Client
     }
 
     /**
-     * @return \Magento\Client\AccessToken
+     * @return \Magento\Client\Rest\AccessToken
      *
-     * @throws \Magento\Client\OauthException
+     * @throws \Magento\Client\Rest\OauthException
      */
     public function getAccessToken()
     {
