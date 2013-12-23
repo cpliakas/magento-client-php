@@ -1,6 +1,6 @@
 <?php
 
-namespace Magento\Client;
+namespace Magento\Client\Rest;
 
 use Guzzle\Http\Url;
 

@@ -1,13 +1,13 @@
 <?php
 
-namespace Magento\Client;
+namespace Magento\Client\Rest;
 
 use Guzzle\Http\Message\Response;
 
 class Token
 {
     /**
-     * @var \Magento\Client\MagentoClient
+     * @var \Magento\Client\MagentoRestClient
      */
     protected $client;
 
@@ -27,12 +27,12 @@ class Token
     protected $tokenSecret;
 
     /**
-     * @param \Magento\Client\MagentoClient
+     * @param \Magento\Client\MagentoRestClient
      * @param \Guzzle\Http\Message\Response $response
      *
      * @throws \UnexpectedValueException
      */
-    public function __construct(MagentoClient $client, Response $response)
+    public function __construct(MagentoRestClient $client, Response $response)
     {
         $this->client = $client;
         $this->response = $response;
@@ -55,7 +55,7 @@ class Token
     public function init(array $arr) {}
 
     /**
-     * @return \Magento\Client\MagentoClient
+     * @return \Magento\Client\MagentoRestClient
      */
     public function getClient()
     {

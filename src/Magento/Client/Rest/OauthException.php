@@ -1,6 +1,6 @@
 <?php
 
-namespace Magento\Client;
+namespace Magento\Client\Rest;
 
 use Guzzle\Http\Exception\ClientErrorResponseException;
 use Guzzle\Http\Message\RequestInterface;

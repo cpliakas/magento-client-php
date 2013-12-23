@@ -1,17 +1,17 @@
 <?php
 
-namespace Magento\Client;
+namespace Magento\Client\Rest;
 
 use Guzzle\Common\Collection;
 use Guzzle\Http\Exception\ClientErrorResponseException;
 use Guzzle\Service\Client;
 
-class MagentoClient extends Client
+class MagentoRestClient extends Client
 {
     /**
      * {@inheritdoc}
      *
-     * @return \Magento\Client\MagentoClient
+     * @return \Magento\Client\MagentoRestClient
      */
     public static function factory($config = array())
     {
@@ -45,7 +45,7 @@ class MagentoClient extends Client
      *
      * @param string $callback
      *
-     * @return \Magento\Client\MagentoClient
+     * @return \Magento\Client\MagentoRestClient
      */
     public function setCallback($callback)
     {
