@@ -3,6 +3,7 @@
 namespace Magento\Client;
 
 use Guzzle\Common\Collection;
+use Guzzle\Http\Exception\ClientErrorResponseException;
 use Guzzle\Service\Client;
 
 class MagentoClient extends Client
@@ -16,16 +17,12 @@ class MagentoClient extends Client
     {
         $defaults = array(
             'base_url' => 'http://localhost',
-            'base_path' => '/api/rest/',
         );
 
         $required = array(
             'base_url',
-            'base_path',
             'consumer_key',
             'consumer_secret',
-            'token',
-            'token_secret',
         );
 
         $config = Collection::fromConfig($config, $defaults, $required);
@@ -34,5 +31,21 @@ class MagentoClient extends Client
         $magento->addSubscriber(new MagentoOauthPlugin($config->toArray()));
 
         return $magento;
+    }
+
+    /**
+     * @return \Magento\Client\OauthToken
+     *
+     * @throws \Magento\Client\OauthException
+     */
+    public function getToken()
+    {
+        try {
+            $response = $this->post('/oauth/initiate')->send();
+        } catch (ClientErrorResponseException $e) {
+            throw OauthException::factory($e->getRequest(), $e->getResponse());
+        }
+
+        return new OauthToken($response);
     }
 }
