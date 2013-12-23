@@ -41,24 +41,6 @@ class MagentoRestClient extends Client
     }
 
     /**
-     * Sets callback after instantiation.
-     *
-     * @param string $callback
-     *
-     * @return \Magento\Client\MagentoRestClient
-     */
-    public function setCallback($callback)
-    {
-        $listeners = $this->getEventDispatcher()->getListeners('request.before_send');
-        foreach ($listeners as $listener) {
-            if ($listener[0] instanceof MagentoOauthPlugin) {
-                $listener[0]->setCallback($callback);
-            }
-        }
-        return $this;
-    }
-
-    /**
      * {@inheritdoc}
      *
      * Prepends the {+base_path} expressions to the URI
