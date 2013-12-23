@@ -3,9 +3,8 @@
 namespace Magento\Client;
 
 use Guzzle\Http\Message\Response;
-use Guzzle\Http\Url;
 
-class OauthToken
+class Token
 {
     /**
      * @var \Magento\Client\MagentoClient
@@ -28,11 +27,7 @@ class OauthToken
     protected $tokenSecret;
 
     /**
-     * @var bool
-     */
-    protected $callbackConfirmed;
-
-    /**
+     * @param \Magento\Client\MagentoClient
      * @param \Guzzle\Http\Message\Response $response
      *
      * @throws \UnexpectedValueException
@@ -49,14 +44,15 @@ class OauthToken
         if (!isset($arr['oauth_token_secret'])) {
             throw new \UnexpectedValueException('Invalid response: missing oauth_token_secret');
         }
-        if (!isset($arr['oauth_callback_confirmed'])) {
-            throw new \UnexpectedValueException('Invalid response: missing oauth_callback_confirmed');
-        }
 
         $this->token = $arr['oauth_token'];
         $this->tokenSecret = $arr['oauth_token_secret'];
-        $this->callbackConfirmed = $arr['oauth_callback_confirmed'];
     }
+
+    /**
+     * @param array $arr
+     */
+    public function init(array $arr) {}
 
     /**
      * @return \Magento\Client\MagentoClient
@@ -88,43 +84,6 @@ class OauthToken
     public function getTokenSecret()
     {
         return $this->tokenSecret;
-    }
-
-    /**
-     * @return bool
-     */
-    public function callbackConfirmed()
-    {
-        return $this->callbackConfirmed;
-    }
-
-    /**
-     * @param string $path
-     *
-     * @return Guzzle\Http\Url
-     */
-    public function getAuthUrl($path)
-    {
-        return Url::factory($this->client->getConfig('base_url'))
-            ->setPath($path)
-            ->setQuery(array('oauth_token' => $this->token))
-        ;
-    }
-
-    /**
-     * @return Guzzle\Http\Url
-     */
-    public function getCustomerAuthUrl()
-    {
-        return $this->getAuthUrl('/oauth/authorize');
-    }
-
-    /**
-     * @return Guzzle\Http\Url
-     */
-    public function getAdminAuthUrl()
-    {
-        return $this->getAuthUrl('/admin/oAuth_authorize');
     }
 
     /**

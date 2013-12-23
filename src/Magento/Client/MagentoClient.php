@@ -17,10 +17,12 @@ class MagentoClient extends Client
     {
         $defaults = array(
             'base_url' => 'http://localhost',
+            'base_path' => '/',
         );
 
         $required = array(
             'base_url',
+            'base_path',
             'consumer_key',
             'consumer_secret',
         );
@@ -30,21 +32,46 @@ class MagentoClient extends Client
         $magento = new static($config->get('base_url'), $config);
         $magento->addSubscriber(new MagentoOauthPlugin($config->toArray()));
 
+        $magento->setDefaultOption('headers', array(
+            'Content-Type' => 'application/json',
+            'Accept' => '*/*',
+        ));
+
         return $magento;
     }
 
     /**
-     * @return \Magento\Client\OauthToken
+     * @return \Magento\Client\RequestToken
      *
      * @throws \Magento\Client\OauthException
      */
-    public function getToken()
+    public function getRequestToken()
     {
         try {
             $response = $this->post('/oauth/initiate')->send();
         } catch (ClientErrorResponseException $e) {
             throw OauthException::factory($e->getRequest(), $e->getResponse());
         }
-        return new OauthToken($this, $response);
+        return new RequestToken($this, $response);
+    }
+
+    /**
+     * @return \Magento\Client\AccessToken
+     *
+     * @throws \Magento\Client\OauthException
+     */
+    public function getAccessToken()
+    {
+        try {
+            $response = $this->post('/oauth/token')->send();
+        } catch (ClientErrorResponseException $e) {
+            throw OauthException::factory($e->getRequest(), $e->getResponse());
+        }
+        return new AccessToken($this, $response);
+    }
+
+    public function products()
+    {
+        return $this->get('/api/rest/products')->send();
     }
 }
