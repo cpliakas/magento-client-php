@@ -40,17 +40,4 @@ class MagentoOauthPlugin extends OauthPlugin
              . rawurlencode($url) . '&'
              . rawurlencode((string) $parameterString);
     }
-
-    /**
-     * Sets callback after instantiation.
-     *
-     * @param string $callback
-     *
-     * @return \Magento\Client\MagentoOauthPlugin
-     */
-    public function setCallback($callback)
-    {
-        $this->config->set('callback', $callback);
-        return $this;
-    }
 }
