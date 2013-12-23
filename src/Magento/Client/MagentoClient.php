@@ -17,7 +17,7 @@ class MagentoClient extends Client
     {
         $defaults = array(
             'base_url' => 'http://localhost',
-            'base_path' => '/',
+            'base_path' => '',
         );
 
         $required = array(
@@ -38,6 +38,17 @@ class MagentoClient extends Client
         ));
 
         return $magento;
+    }
+
+    /**
+     * {@inheritdoc}
+     *
+     * Prepends the {+base_path} expressions to the URI
+     */
+    public function createRequest($method = 'GET', $uri = null, $headers = null, $body = null, array $options = array())
+    {
+        $uri = '{+base_path}/' . ltrim($uri, '/');
+        return parent::createRequest($method, $uri, $headers, $body, $options);
     }
 
     /**
@@ -70,8 +81,13 @@ class MagentoClient extends Client
         return new AccessToken($this, $response);
     }
 
+    /**
+     * @return array
+     *
+     * @see http://www.magentocommerce.com/api/rest/Resources/Products/products.html#RESTAPI-Resource-Products-HTTPMethod-GET-products
+     */
     public function products()
     {
-        return $this->get('/api/rest/products')->send();
+        return $this->get('/api/rest/products')->send()->json();
     }
 }

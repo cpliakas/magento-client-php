@@ -30,7 +30,9 @@ class MagentoOauthPlugin extends OauthPlugin
         // Remove the port to get around the Magento bug.
         // @see http://stackoverflow.com/a/14693714/870667
         $requestUrl = $request->getUrl(true);
-        $requestUrl->setPort('');
+        if (preg_match('@/oauth/(initiate|token)$@', $requestUrl->getPath())) {
+            $requestUrl->setPort('');
+        }
 
         $url = Url::factory($requestUrl->setQuery('')->setFragment(null));
 

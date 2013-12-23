@@ -58,6 +58,6 @@ class RequestToken extends Token
      */
     public function getAdminAuthUrl()
     {
-        return $this->getAuthUrl('/admin/oAuth_authorize');
+        return $this->getAuthUrl('/admin/oauth_authorize');
     }
 }
