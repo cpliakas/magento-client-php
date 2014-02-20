@@ -87,7 +87,6 @@ class MagentoXmlrpcClient extends Client
             $this->getConfig()->set('session', $session);
         }
 
-        $params = array_merge(array($session, $method), $params);
-        return $this->client->call('call', $params);
+        return $this->client->call('call', array($session, $method, $params));
     }
 }
