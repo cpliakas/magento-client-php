@@ -5,7 +5,7 @@
 [![Total Downloads](https://poser.pugx.org/cpliakas/magento-client-php/downloads.png)](https://packagist.org/packages/cpliakas/magento-client-php)
 [![Latest Stable Version](https://poser.pugx.org/cpliakas/magento-client-php/v/stable.png)](https://packagist.org/packages/cpliakas/magento-client-php)
 
-@todo
+Provides client libraries to make REST and XMLRPC calls to a Magento instance.
 
 ## Installation
 
