@@ -1,7 +1,7 @@
 {
     "name": "cpliakas/magento-client-php",
     "type": "library",
-    "description": "A PHP client library that consumes Magento's REST API",
+    "description": "A PHP client library that consumes Magento's REST and XMLRPC APIs",
     "homepage": "https://github.com/cpliakas/magento-client-php",
     "license": "MIT",
     "authors": [
