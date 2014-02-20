@@ -20,7 +20,7 @@ class MagentoXmlrpcClient extends Client
     /**
      * {@inheritdoc}
      *
-     * @return \Acquia\Network\AcquiaNetworkClient
+     * @return \Magento\Client\Xmlrpc\MagentoXmlrpcClient
      */
     public static function factory($config = array())
     {
@@ -62,6 +62,39 @@ class MagentoXmlrpcClient extends Client
     }
 
     /**
+     * @return \fXmlRpc\Client
+     */
+    public function getClient()
+    {
+        if (!isset($this->client)) {
+            $uri = rtrim($this->getConfig('base_url'), '/') . '/api/xmlrpc/';
+            $bridge = new \fXmlRpc\Transport\GuzzleBridge($this);
+            $this->client = new \fXmlRpc\Client($uri, $bridge);
+        }
+
+        return $this->client;
+    }
+
+    /**
+     * @return string
+     */
+    public function getSession()
+    {
+        $session = $this->getConfig('session');
+
+        if (!$session) {
+            $this->autoCloseSession = true;
+            $session = $this->getClient()->call('login', array(
+                $this->getConfig('api_user'),
+                $this->getConfig('api_key')
+            ));
+            $this->getConfig()->set('session', $session);
+        }
+
+        return $session;
+    }
+
+    /**
      * @param string $method
      * @param array $params
      *
@@ -71,23 +104,7 @@ class MagentoXmlrpcClient extends Client
      */
     public function call($method, array $params = array())
     {
-        if (!isset($this->client)) {
-            $uri = rtrim($this->getConfig('base_url'), '/') . '/api/xmlrpc/';
-            $bridge = new \fXmlRpc\Transport\GuzzleBridge($this);
-            $this->client = new \fXmlRpc\Client($uri, $bridge);
-        }
-
-        // Starts a session if one hasn't been started.
-        if (!$session = $this->getConfig('session')) {
-            $this->autoCloseSession = true;
-            $session = $this->client->call('login', array(
-                $this->getConfig('api_user'),
-                $this->getConfig('api_key')
-            ));
-            $this->getConfig()->set('session', $session);
-        }
-
-        $params = array($session, $method, $params);
-        return $this->client->call('call', $params);
+        $params = array($this->getSession(), $method, $params);
+        return $this->getClient()->call('call', $params);
     }
 }
