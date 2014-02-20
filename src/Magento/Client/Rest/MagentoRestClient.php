@@ -80,14 +80,4 @@ class MagentoRestClient extends Client
         }
         return new AccessToken($this, $response);
     }
-
-    /**
-     * @return array
-     *
-     * @see http://www.magentocommerce.com/api/rest/Resources/Products/products.html#RESTAPI-Resource-Products-HTTPMethod-GET-products
-     */
-    public function products()
-    {
-        return $this->get('/api/rest/products')->send()->json();
-    }
 }

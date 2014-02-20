@@ -1,4 +1,3 @@
-build
-composer.lock
-vendor
-/nbproject/private/
+/build
+/composer.lock
+/vendor
